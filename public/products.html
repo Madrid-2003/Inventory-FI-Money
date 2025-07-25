@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ✅ Important -->
+  <title>Add Product</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .logout {
+      background: red;
+      margin-top: 10px;
+    }
+    #responseMsg {
+      margin-top: 10px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Add Product</h2>
+    <input type="text" id="name" placeholder="Product Name">
+    <input type="text" id="description" placeholder="Description">
+    <input type="number" id="quantity" placeholder="Quantity">
+    <input type="number" id="price" placeholder="Price">
+    <button onclick="addProduct()">Add Product</button>
+    <button class="logout" onclick="logout()">Logout</button>
+    <div id="responseMsg"></div>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Not authorized');
+      window.location.href = 'index.html';
+    }
+
+    function addProduct() {
+      fetch('http://localhost:8080/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({
+          name: document.getElementById('name').value,
+          description: document.getElementById('description').value,
+          quantity: document.getElementById('quantity').value,
+          price: document.getElementById('price').value
+        })
+      }).then(res => res.json())
+        .then(data => {
+          if (data.id) {
+            document.getElementById('responseMsg').innerText = '✅ Product Added! ID: ' + data.id;
+          } else {
+            document.getElementById('responseMsg').innerText = '❌ Failed to add product.';
+          }
+        }).catch(err => {
+          document.getElementById('responseMsg').innerText = '❌ Error: ' + err.message;
+        });
+    }
+
+    function logout() {
+      localStorage.removeItem('token');
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>
