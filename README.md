@@ -1,4 +1,4 @@
-# Inventory Management Tool (Backend)
+  # Inventory Management Tool (Backend)
 
 This is a backend system designed for a basic inventory management tool. It allows users to authenticate using JWT and perform operations like adding products, updating product quantities, and retrieving product lists with pagination.
 
@@ -31,4 +31,18 @@ This is a backend system designed for a basic inventory management tool. It allo
 
 ```bash
 git clone https://github.com/yourusername/inventory-management-tool.git
-cd inventory-management-tool
+cd inventory-management-tool 
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
